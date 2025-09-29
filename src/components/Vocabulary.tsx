@@ -8,7 +8,7 @@ const SpeakerIcon = () => (
     </svg>
 );
 
-const Vocabulary: React.FC<{ speechRate: number; selectedVoice: string }> = ({ speechRate, selectedVoice }) => {
+const Vocabulary: React.FC<{ speechRate: number; selectedVoice: string, speechLang: string }> = ({ speechRate, selectedVoice, speechLang }) => {
     const [level, setLevel] = useState<CEFRLevel>('A1');
     const [words, setWords] = useState<VocabularyWord[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +52,8 @@ const Vocabulary: React.FC<{ speechRate: number; selectedVoice: string }> = ({ s
     const playAudio = (text: string) => {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
+        // FIX: Use speechLang prop for consistent language selection.
+        utterance.lang = speechLang === 'en' ? 'en-US' : 'vi-VN';
         utterance.rate = speechRate;
         if (selectedVoice) {
             const voice = window.speechSynthesis.getVoices().find(v => v.name === selectedVoice);
