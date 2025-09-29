@@ -3,7 +3,7 @@ import { TranslationResult, CEFRLevel, VocabularyWord, ConversationLine, ExamQue
 
 // The user is expected to have the API_KEY in their environment variables.
 // As per instructions, do not add any UI or logic to handle the key itself.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 
 /**
  * Translates text between Vietnamese and English using the Gemini API.
@@ -54,7 +54,8 @@ export const fetchTranslation = async (text: string): Promise<TranslationResult>
             },
         });
 
-        const jsonText = (response.text ?? '').trim();
+        // FIX: Safely access response.text to prevent crash if it's null or undefined.
+        const jsonText = (response.text || '').trim();
         const result = JSON.parse(jsonText);
         return result as TranslationResult;
     } catch (error) {
@@ -87,7 +88,8 @@ export const extractTextFromImage = async (imageData: { mimeType: string; data: 
           contents: { parts: [imagePart, textPart] },
         });
 
-        return response.text ?? '';
+        // FIX: Safely access response.text to prevent crash if it's null or undefined.
+        return response.text || '';
     } catch (error) {
         console.error("Error extracting text from image:", error);
         throw new Error("Failed to extract text from image using Gemini API.");
@@ -156,7 +158,8 @@ export const fetchDictionaryEntry = async (word: string): Promise<TranslationRes
             },
         });
 
-        const jsonText = (response.text ?? '').trim();
+        // FIX: Safely access response.text to prevent crash if it's null or undefined.
+        const jsonText = (response.text || '').trim();
         const result = JSON.parse(jsonText);
 
         try {
@@ -227,7 +230,8 @@ export const fetchCefrVocabulary = async (level: CEFRLevel, page: number, limit:
                 },
             });
 
-            const jsonText = (response.text ?? '').trim();
+            // FIX: Safely access response.text to prevent crash if it's null or undefined.
+            const jsonText = (response.text || '').trim();
             const result = JSON.parse(jsonText);
             wordPool = (result as VocabularyWord[]).slice(0, POOL_SIZE);
 
@@ -300,7 +304,8 @@ export const fetchConversation = async (level: CEFRLevel, topic?: string): Promi
             },
         });
 
-        const jsonText = (response.text ?? '').trim();
+        // FIX: Safely access response.text to prevent crash if it's null or undefined.
+        const jsonText = (response.text || '').trim();
         const result = JSON.parse(jsonText);
         
         if (!topic) {
@@ -369,7 +374,8 @@ export const fetchMoreConversationLines = async (existingConversation: Conversat
             },
         });
 
-        const jsonText = (response.text ?? '').trim();
+        // FIX: Safely access response.text to prevent crash if it's null or undefined.
+        const jsonText = (response.text || '').trim();
         const result = JSON.parse(jsonText);
         return result as ConversationLine[];
     } catch (error) {
@@ -419,7 +425,8 @@ export const checkGrammar = async (text: string): Promise<GrammarCheckResult> =>
             },
         });
 
-        const jsonText = (response.text ?? '').trim();
+        // FIX: Safely access response.text to prevent crash if it's null or undefined.
+        const jsonText = (response.text || '').trim();
         return JSON.parse(jsonText) as GrammarCheckResult;
     } catch (error) {
         console.error("Error checking grammar:", error);
@@ -476,7 +483,8 @@ export const fetchCefrExam = async (level: CEFRLevel): Promise<ExamQuestion[]> =
             },
         });
 
-        const jsonText = (response.text ?? '').trim();
+        // FIX: Safely access response.text to prevent crash if it's null or undefined.
+        const jsonText = (response.text || '').trim();
         const result = JSON.parse(jsonText);
         // Ensure exactly 40 questions are returned
         if (Array.isArray(result) && result.length > totalQuestions) {
