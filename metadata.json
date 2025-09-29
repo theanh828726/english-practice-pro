@@ -1,0 +1,7 @@
+{
+  "name": "Ứng dụng học Tiếng Anh toàn diện",
+  "description": "Ứng dụng học Tiếng Anh toàn diện: tra cứu, dịch Việt ↔ Anh (kèm ví dụ & IPA), từ vựng theo cấp độ CEFR, hội thoại mẫu, luyện ngữ pháp, luyện phát âm & kiểm tra nhanh.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
