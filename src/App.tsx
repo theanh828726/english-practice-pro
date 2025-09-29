@@ -1,20 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import { ActiveView } from './types';
 
-// Import view components
-import Translator from './components/Translator';
-import Dictionary from './components/Dictionary';
-import Vocabulary from './components/Vocabulary';
-import Conversations from './components/Conversations';
-import GrammarPractice from './components/GrammarPractice';
-import Flashcards from './components/Flashcards';
-import Quiz from './components/Quiz';
-import CefrExam from './components/CefrExam';
-import Pronunciation from './components/Pronunciation';
-import History from './components/History';
-import Settings from './components/Settings';
+// Lazy load components for code splitting
+const Translator = lazy(() => import('./components/Translator'));
+const Dictionary = lazy(() => import('./components/Dictionary'));
+const Vocabulary = lazy(() => import('./components/Vocabulary'));
+const Conversations = lazy(() => import('./components/Conversations'));
+const GrammarPractice = lazy(() => import('./components/GrammarPractice'));
+const Flashcards = lazy(() => import('./components/Flashcards'));
+const Quiz = lazy(() => import('./components/Quiz'));
+const CefrExam = lazy(() => import('./components/CefrExam'));
+const Pronunciation = lazy(() => import('./components/Pronunciation'));
+const History = lazy(() => import('./components/History'));
+const Settings = lazy(() => import('./components/Settings'));
+
+const LoadingFallback = () => (
+    <div className="flex items-center justify-center h-full">
+        <p className="text-xl animate-pulse">Đang tải tính năng...</p>
+    </div>
+);
 
 const App: React.FC = () => {
     // API key check
@@ -132,7 +138,9 @@ const App: React.FC = () => {
                         setVoice={setSelectedVoice}
                     />
                     <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
-                        {renderActiveView()}
+                        <Suspense fallback={<LoadingFallback />}>
+                            {renderActiveView()}
+                        </Suspense>
                     </main>
                     <footer className="p-2 text-center text-sm text-gray-500 dark:text-gray-400 border-t border-light-border dark:border-dark-border">
                         <span>
