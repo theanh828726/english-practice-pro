@@ -14,7 +14,7 @@ const XIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline-block mr-1 text-red-500" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
 );
 
-const CefrExam: React.FC<{ speechRate: number; selectedVoice: string }> = ({ speechRate, selectedVoice }) => {
+const CefrExam: React.FC<{ speechRate: number; selectedVoice: string, speechLang: string }> = ({ speechRate, selectedVoice, speechLang }) => {
     const [level, setLevel] = useState<CEFRLevel>('A1');
     const [questions, setQuestions] = useState<ExamQuestion[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -45,7 +45,8 @@ const CefrExam: React.FC<{ speechRate: number; selectedVoice: string }> = ({ spe
     const playAudio = (text: string) => {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
+        // FIX: Use speechLang prop for consistent language selection.
+        utterance.lang = speechLang === 'en' ? 'en-US' : 'vi-VN';
         utterance.rate = speechRate;
         if (selectedVoice) {
             const voice = window.speechSynthesis.getVoices().find(v => v.name === selectedVoice);
@@ -104,7 +105,7 @@ const CefrExam: React.FC<{ speechRate: number; selectedVoice: string }> = ({ spe
                 {q.audio_script && (
                     <div className="text-center mb-4 p-3 bg-light-bg dark:bg-dark-bg rounded-lg flex items-center justify-center gap-4">
                         <p className="italic">Nghe đoạn hội thoại/thông tin và trả lời câu hỏi.</p>
-                        <button onClick={() => q.audio_script && playAudio(q.audio_script)} className="p-2 bg-accent text-white rounded-full hover:bg-emerald-600 transition">
+                        <button onClick={() => playAudio(q.audio_script!)} className="p-2 bg-accent text-white rounded-full hover:bg-emerald-600 transition">
                             <SpeakerIcon />
                         </button>
                     </div>
