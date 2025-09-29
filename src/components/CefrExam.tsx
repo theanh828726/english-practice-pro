@@ -104,7 +104,7 @@ const CefrExam: React.FC<{ speechRate: number; selectedVoice: string }> = ({ spe
                 {q.audio_script && (
                     <div className="text-center mb-4 p-3 bg-light-bg dark:bg-dark-bg rounded-lg flex items-center justify-center gap-4">
                         <p className="italic">Nghe đoạn hội thoại/thông tin và trả lời câu hỏi.</p>
-                        <button onClick={() => playAudio(q.audio_script)} className="p-2 bg-accent text-white rounded-full hover:bg-emerald-600 transition">
+                        <button onClick={() => q.audio_script && playAudio(q.audio_script)} className="p-2 bg-accent text-white rounded-full hover:bg-emerald-600 transition">
                             <SpeakerIcon />
                         </button>
                     </div>
