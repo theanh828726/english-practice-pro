@@ -16,7 +16,7 @@ const MicrophoneIcon = () => (
 );
 
 
-const Conversations: React.FC<{ speechRate: number; selectedVoice: string }> = ({ speechRate, selectedVoice }) => {
+const Conversations: React.FC<{ speechRate: number; selectedVoice: string, speechLang: string }> = ({ speechRate, selectedVoice, speechLang }) => {
     const [level, setLevel] = useState<CEFRLevel>('A1');
     const [conversation, setConversation] = useState<ConversationLine[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +24,9 @@ const Conversations: React.FC<{ speechRate: number; selectedVoice: string }> = (
     const [isRecording, setIsRecording] = useState<number | null>(null); // turn number
     const [practiceResult, setPracticeResult] = useState<{ turn: number, score: number } | null>(null);
     const [customTopic, setCustomTopic] = useState('');
+    const [recognitionLang, setRecognitionLang] = useState('vi-VN');
+    const [isListening, setIsListening] = useState(false);
+    const [recognitionError, setRecognitionError] = useState('');
 
     useEffect(() => {
         const loadConversation = async () => {
@@ -39,10 +42,11 @@ const Conversations: React.FC<{ speechRate: number; selectedVoice: string }> = (
         loadConversation();
     }, [level]);
 
-    const playAudio = (text: string, lang: 'en' | 'vi') => {
+    const playAudio = (text: string) => {
         window.speechSynthesis.cancel(); 
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang === 'en' ? 'en-US' : 'vi-VN';
+        // FIX: Use speechLang prop for consistent language selection.
+        utterance.lang = speechLang === 'en' ? 'en-US' : 'vi-VN';
         utterance.rate = speechRate;
         if (selectedVoice) {
             const voice = window.speechSynthesis.getVoices().find(v => v.name === selectedVoice);
@@ -85,7 +89,7 @@ const Conversations: React.FC<{ speechRate: number; selectedVoice: string }> = (
                     return 1.0;
                 }
                 const editDistance = (str1: string, str2: string) => {
-                    const costs: number[] = [];
+                    const costs = [];
                     for (let i = 0; i <= str1.length; i++) {
                         let lastValue = i;
                         for (let j = 0; j <= str2.length; j++) {
@@ -200,7 +204,8 @@ const Conversations: React.FC<{ speechRate: number; selectedVoice: string }> = (
                                     )}
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <button onClick={() => playAudio(line.en, 'en')} className="p-2 rounded-full hover:bg-accent/20 text-accent" title="Nghe"><SpeakerIcon /></button>
+                                    {/* FIX: Removed lang parameter from playAudio call */}
+                                    <button onClick={() => playAudio(line.en)} className="p-2 rounded-full hover:bg-accent/20 text-accent" title="Nghe"><SpeakerIcon /></button>
                                     <button onClick={() => practiceSpeaking(line)} disabled={isRecording !== null} className={`p-2 rounded-full transition ${isRecording === line.turn ? 'bg-red-500 text-white animate-pulse' : 'hover:bg-primary/20 text-primary'}`} title="Luyện nói"><MicrophoneIcon /></button>
                                 </div>
                             </div>
