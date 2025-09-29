@@ -14,7 +14,7 @@ const XIcon = () => (
 );
 
 
-const History: React.FC<{ speechRate: number, selectedVoice: string }> = ({ speechRate, selectedVoice }) => {
+const History: React.FC<{ speechRate: number, selectedVoice: string, speechLang: string }> = ({ speechRate, selectedVoice, speechLang }) => {
     const [history, setHistory] = useState<HistoryItem[]>([]);
     const [selectedItem, setSelectedItem] = useState<HistoryItem | null>(null);
 
@@ -29,10 +29,11 @@ const History: React.FC<{ speechRate: number, selectedVoice: string }> = ({ spee
         }
     };
 
-    const playAudio = (text: string, lang: 'en' | 'vi' = 'en') => {
+    const playAudio = (text: string) => {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang === 'en' ? 'en-US' : 'vi-VN';
+        // FIX: Use speechLang prop for consistent language selection.
+        utterance.lang = speechLang === 'en' ? 'en-US' : 'vi-VN';
         utterance.rate = speechRate;
         if (selectedVoice) {
             const voice = window.speechSynthesis.getVoices().find(v => v.name === selectedVoice);
