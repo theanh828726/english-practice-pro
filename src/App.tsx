@@ -67,32 +67,34 @@ const App: React.FC = () => {
     const toggleTheme = () => setIsDarkMode(prev => !prev);
 
     const renderActiveView = () => {
-        const speechProps = { speechRate, selectedVoice, speechLang };
+        const fullSpeechProps = { speechRate, selectedVoice, speechLang };
+        const limitedSpeechProps = { speechRate, selectedVoice };
+
         switch (activeView) {
             case ActiveView.Translator:
-                return <Translator {...speechProps} />;
+                return <Translator {...fullSpeechProps} />;
             case ActiveView.Dictionary:
-                return <Dictionary {...speechProps} />;
+                return <Dictionary {...limitedSpeechProps} />;
             case ActiveView.Vocabulary:
-                return <Vocabulary {...speechProps} />;
+                return <Vocabulary {...limitedSpeechProps} />;
             case ActiveView.Conversations:
-                return <Conversations {...speechProps} />;
+                return <Conversations {...limitedSpeechProps} />;
             case ActiveView.GrammarPractice:
                 return <GrammarPractice />;
             case ActiveView.Flashcards:
-                return <Flashcards {...speechProps} />;
+                return <Flashcards {...limitedSpeechProps} />;
             case ActiveView.Quiz:
                 return <Quiz />;
             case ActiveView.CefrExam:
-                return <CefrExam {...speechProps} />;
+                return <CefrExam {...limitedSpeechProps} />;
             case ActiveView.Pronunciation:
-                return <Pronunciation {...speechProps} />;
+                return <Pronunciation {...limitedSpeechProps} />;
             case ActiveView.History:
-                return <History {...speechProps} />;
+                return <History {...limitedSpeechProps} />;
             case ActiveView.Settings:
                 return <Settings />;
             default:
-                return <Translator {...speechProps} />;
+                return <Translator {...fullSpeechProps} />;
         }
     };
 
