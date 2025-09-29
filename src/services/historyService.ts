@@ -1,4 +1,4 @@
-import { HistoryItem, HistoryContent, ActiveView } from '../types';
+import { HistoryItem, HistoryContent } from '../types';
 
 const HISTORY_KEY = 'hskBuddyHistory';
 const MAX_HISTORY_ITEMS = 50; // Limit the number of items to prevent excessive storage usage
