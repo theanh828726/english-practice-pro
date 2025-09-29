@@ -16,7 +16,7 @@ const MicrophoneIcon = () => (
 );
 
 
-const Conversations: React.FC<{ speechRate: number; selectedVoice: string, speechLang: string }> = ({ speechRate, selectedVoice, speechLang }) => {
+const Conversations: React.FC<{ speechRate: number; selectedVoice: string }> = ({ speechRate, selectedVoice }) => {
     const [level, setLevel] = useState<CEFRLevel>('A1');
     const [conversation, setConversation] = useState<ConversationLine[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -24,9 +24,6 @@ const Conversations: React.FC<{ speechRate: number; selectedVoice: string, speec
     const [isRecording, setIsRecording] = useState<number | null>(null); // turn number
     const [practiceResult, setPracticeResult] = useState<{ turn: number, score: number } | null>(null);
     const [customTopic, setCustomTopic] = useState('');
-    const [recognitionLang, setRecognitionLang] = useState('vi-VN');
-    const [isListening, setIsListening] = useState(false);
-    const [recognitionError, setRecognitionError] = useState('');
 
     useEffect(() => {
         const loadConversation = async () => {
