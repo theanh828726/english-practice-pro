@@ -90,34 +90,33 @@ const App: React.FC = () => {
     const toggleTheme = () => setIsDarkMode(prev => !prev);
 
     const renderActiveView = () => {
-        const fullSpeechProps = { speechRate, selectedVoice, speechLang };
-        const limitedSpeechProps = { speechRate, selectedVoice };
+        const speechProps = { speechRate, selectedVoice, speechLang };
 
         switch (activeView) {
             case ActiveView.Translator:
-                return <Translator {...fullSpeechProps} />;
+                return <Translator {...speechProps} />;
             case ActiveView.Dictionary:
-                return <Dictionary {...limitedSpeechProps} />;
+                return <Dictionary {...speechProps} />;
             case ActiveView.Vocabulary:
-                return <Vocabulary {...limitedSpeechProps} />;
+                return <Vocabulary {...speechProps} />;
             case ActiveView.Conversations:
-                return <Conversations {...limitedSpeechProps} />;
+                return <Conversations {...speechProps} />;
             case ActiveView.GrammarPractice:
                 return <GrammarPractice />;
             case ActiveView.Flashcards:
-                return <Flashcards {...limitedSpeechProps} />;
+                return <Flashcards {...speechProps} />;
             case ActiveView.Quiz:
                 return <Quiz />;
             case ActiveView.CefrExam:
-                return <CefrExam {...limitedSpeechProps} />;
+                return <CefrExam {...speechProps} />;
             case ActiveView.Pronunciation:
-                return <Pronunciation {...limitedSpeechProps} />;
+                return <Pronunciation {...speechProps} />;
             case ActiveView.History:
-                return <History {...limitedSpeechProps} />;
+                return <History {...speechProps} />;
             case ActiveView.Settings:
                 return <Settings />;
             default:
-                return <Translator {...fullSpeechProps} />;
+                return <Translator {...speechProps} />;
         }
     };
 
