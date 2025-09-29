@@ -3,7 +3,7 @@ import { TranslationResult, CEFRLevel, VocabularyWord, ConversationLine, ExamQue
 
 // The user is expected to have the API_KEY in their environment variables.
 // As per instructions, do not add any UI or logic to handle the key itself.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 /**
  * Translates text between Vietnamese and English using the Gemini API.
