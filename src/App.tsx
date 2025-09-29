@@ -17,6 +17,23 @@ import History from './components/History';
 import Settings from './components/Settings';
 
 const App: React.FC = () => {
+    // API key check
+    if (!process.env.API_KEY) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-red-100 dark:bg-red-900/20">
+                <div className="text-center p-8 bg-white dark:bg-dark-card rounded-lg shadow-lg">
+                    <h1 className="text-2xl font-bold text-red-600 mb-4">Lỗi Cấu hình API Key</h1>
+                    <p className="text-gray-700 dark:text-gray-300">
+                        Khóa API của Gemini chưa được thiết lập.
+                    </p>
+                    <p className="mt-2 text-gray-600 dark:text-gray-400">
+                        Vui lòng thiết lập biến môi trường <code className="bg-red-200 dark:bg-red-800 p-1 rounded">API_KEY</code> trong phần cài đặt của Vercel và deploy lại.
+                    </p>
+                </div>
+            </div>
+        );
+    }
+    
     const [activeView, setActiveView] = useState<ActiveView>(ActiveView.Translator);
     const [isDarkMode, setIsDarkMode] = useState(() => {
         if (localStorage.theme === 'dark') {
