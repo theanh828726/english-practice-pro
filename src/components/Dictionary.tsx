@@ -15,7 +15,7 @@ const MicrophoneIcon = () => (
     </svg>
 );
 
-const Dictionary: React.FC<{ speechRate: number; selectedVoice: string }> = ({ speechRate, selectedVoice }) => {
+const Dictionary: React.FC<{ speechRate: number; selectedVoice: string, speechLang: string }> = ({ speechRate, selectedVoice, speechLang }) => {
     const [inputText, setInputText] = useState('');
     const [result, setResult] = useState<TranslationResult | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +43,8 @@ const Dictionary: React.FC<{ speechRate: number; selectedVoice: string }> = ({ s
     const playAudio = (text: string) => {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
+        // FIX: Use speechLang prop for consistent language selection.
+        utterance.lang = speechLang === 'en' ? 'en-US' : 'vi-VN';
         utterance.rate = speechRate;
         if (selectedVoice) {
             const voice = window.speechSynthesis.getVoices().find(v => v.name === selectedVoice);
