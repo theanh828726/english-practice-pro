@@ -8,7 +8,7 @@ const SpeakerIcon = () => (
     </svg>
 );
 
-const Vocabulary: React.FC<{ speechRate: number; selectedVoice: string, speechLang: string }> = ({ speechRate, selectedVoice, speechLang }) => {
+const Vocabulary: React.FC<{ speechRate: number; selectedVoice: string }> = ({ speechRate, selectedVoice }) => {
     const [level, setLevel] = useState<CEFRLevel>('A1');
     const [words, setWords] = useState<VocabularyWord[]>([]);
     const [isLoading, setIsLoading] = useState(false);
